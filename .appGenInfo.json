@@ -1,0 +1,33 @@
+{
+  "generationParameters": {
+    "generationDate": "Tue Jun 16 2026 10:03:32 GMT+0000 (Coordinated Universal Time)",
+    "generatorPlatform": "SAP Business Application Studio",
+    "serviceType": "SAP System (ABAP On-Premise)",
+    "metadataFilename": "",
+    "serviceUrl": "http://jhah.virtual.ip.dhc:443/sap/opu/odata4/sap/zsrv_hr_tvs_o4/srvd/sap/zsrv_hr_tvs/0001/",
+    "appName": "zhr_jhahsec_tvs",
+    "appTitle": "Traffic Violation System",
+    "appDescription": "An SAP Fiori application.",
+    "appNamespace": "com.jhah",
+    "ui5Theme": "sap_horizon",
+    "ui5Version": "1.120.39",
+    "enableEslint": true,
+    "enableTypeScript": false,
+    "showMockDataInfo": true,
+    "generatorVersion": "1.26.0",
+    "template": "List Report Page V4",
+    "generatorName": "SAP Fiori Application Generator",
+    "entityRelatedConfig": [
+      {
+        "type": "Main Entity",
+        "value": "header"
+      },
+      {
+        "type": "Navigation Entity",
+        "value": "_Evidence"
+      }
+    ],
+    "launchText": "To launch the generated application, run the following from the generated application root folder:\n\n```\n    npm start\n```",
+    "valueHelpDownloaded": true
+  }
+}
