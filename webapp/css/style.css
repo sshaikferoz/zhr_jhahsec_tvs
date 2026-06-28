@@ -1,0 +1,7 @@
+/* If the app is in Employee Mode, hide all these standard and custom action buttons globally */
+.employeeMode [id*="DataFieldForAction"],
+.employeeMode [id*="StandardAction::Create"],
+.employeeMode [id*="StandardAction::Delete"],
+.employeeMode [id*="StandardAction::Edit"] {
+    display: none !important;
+}

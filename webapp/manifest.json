@@ -38,6 +38,7 @@
   },
   "sap.ui": {
     "technology": "UI5",
+    "fullWidth": true,
     "icons": {
       "icon": "",
       "favIcon": "",
@@ -64,7 +65,7 @@
     },
     "contentDensities": {
       "compact": true,
-      "cozy": true
+      "cozy": false
     },
     "models": {
       "i18n": {
@@ -88,7 +89,11 @@
       }
     },
     "resources": {
-      "css": []
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
     },
     "routing": {
       "config": {},
@@ -131,7 +136,8 @@
                     "type": "ResponsiveTable"
                   }
                 }
-              }
+              },
+              "initialLoad": "Enabled"
             }
           }
         },
@@ -162,6 +168,21 @@
               "editableHeaderContent": false,
               "contextPath": "/header/_Evidence"
             }
+          }
+        }
+      }
+    },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ListReport.ListReportController": {
+            "controllerName": "com.jhah.zhrjhahsectvs.ext.controller.ViolationControllerExtension"
+          },
+          "sap.fe.templates.ObjectPage.ObjectPageController": {
+            "controllerName": "com.jhah.zhrjhahsectvs.ext.controller.ViolationControllerExtension"
+          },
+          "sap.fe.templates.ListReport.ListReportController#com.jhah.zhrjhahsectvs::headerList": {
+            "controllerName": "com.jhah.zhrjhahsectvs.ext.controller.ViolationControllerExtension"
           }
         }
       }
