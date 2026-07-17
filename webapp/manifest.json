@@ -134,6 +134,26 @@
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
                     "type": "ResponsiveTable"
+                  },
+                  "actions": {
+                    "MaintainViolMasterData": {
+                      "type": "Menu",
+                      "text": "Maintain Master Data",
+                      "menu": [
+                        "NavMaintainLocation",
+                        "NavMaintainViolationType"
+                      ]
+                    },
+                    "NavMaintainLocation": {
+                      "text": "Maintain Location",
+                      "icon": "sap-icon://map-2",
+                      "press": "com.jhah.zhrjhahsectvs.ext.controller.CustomActions.navigateToMaintainLocation"
+                    },
+                    "NavMaintainViolationType": {
+                      "text": "Maintain Violation Type",
+                      "icon": "sap-icon://warning2",
+                      "press": "com.jhah.zhrjhahsectvs.ext.controller.CustomActions.navigateToMaintainViolationType"
+                    }
                   }
                 }
               },
@@ -149,10 +169,29 @@
             "settings": {
               "editableHeaderContent": false,
               "contextPath": "/header",
+              "content": {
+                "header": {
+                  "facets": {
+                    "customViolatorStrip": {
+                      "type": "XMLFragment",
+                      "name": "com.jhah.zhrjhahsectvs.ext.fragment.ViolatorStrip"
+                    }
+                  }
+                }
+              },
               "navigation": {
                 "_Evidence": {
                   "detail": {
                     "route": "evidenceObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "_Evidence/@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "creationMode": {
+                      "name": "Inline"
+                    }
                   }
                 }
               }
@@ -175,13 +214,10 @@
     "extends": {
       "extensions": {
         "sap.ui.controllerExtensions": {
-          "sap.fe.templates.ListReport.ListReportController": {
-            "controllerName": "com.jhah.zhrjhahsectvs.ext.controller.ViolationControllerExtension"
-          },
-          "sap.fe.templates.ObjectPage.ObjectPageController": {
-            "controllerName": "com.jhah.zhrjhahsectvs.ext.controller.ViolationControllerExtension"
-          },
           "sap.fe.templates.ListReport.ListReportController#com.jhah.zhrjhahsectvs::headerList": {
+            "controllerName": "com.jhah.zhrjhahsectvs.ext.controller.ViolationControllerExtension"
+          },
+          "sap.fe.templates.ObjectPage.ObjectPageController#com.jhah.zhrjhahsectvs::headerObjectPage": {
             "controllerName": "com.jhah.zhrjhahsectvs.ext.controller.ViolationControllerExtension"
           }
         }
