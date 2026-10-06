@@ -123,6 +123,19 @@
             "settings": {
               "contextPath": "/header",
               "variantManagement": "Page",
+              "views": {
+                "paths": [
+                  {
+                    "key": "AdminTabKey",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#AdminTab"
+                  },
+                  {
+                    "key": "EmpTabKey",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#EmpTab"
+                  }
+                ],
+                "showCounts": true
+              },
               "navigation": {
                 "header": {
                   "detail": {
@@ -132,6 +145,11 @@
               },
               "controlConfiguration": {
                 "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
+                  }
+                },
+                "@com.sap.vocabularies.UI.v1.LineItem#AdminList": {
                   "tableSettings": {
                     "type": "ResponsiveTable"
                   },
@@ -155,6 +173,11 @@
                       "press": "com.jhah.zhrjhahsectvs.ext.controller.CustomActions.navigateToMaintainViolationType"
                     }
                   }
+                },
+                "@com.sap.vocabularies.UI.v1.LineItem#EmpList": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
+                  }
                 }
               },
               "initialLoad": "Enabled"
@@ -169,6 +192,7 @@
             "settings": {
               "editableHeaderContent": false,
               "contextPath": "/header",
+              "enhanceI18n": "i18n/i18n.properties",
               "content": {
                 "header": {
                   "facets": {

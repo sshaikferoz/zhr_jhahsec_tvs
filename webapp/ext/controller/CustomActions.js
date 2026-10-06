@@ -4,33 +4,31 @@ sap.ui.define([
     "use strict";
 
     return {
-        navigateToMaintainLocation: function (oContext, aSelectedContexts) {
-            if (sap.ushell && sap.ushell.Container) {
-                sap.ushell.Container.getServiceAsync("CrossApplicationNavigation").then(function (oCrossAppNav) {
-                    oCrossAppNav.toExternal({
-                        target: {
-                            semanticObject: "MaintLocnType",
-                            action: "manage"
-                        }
-                    });
+        navigateToMaintainLocation: function (oEvent) {
+            var oCrossAppNavigator = sap.ushell && sap.ushell.Container && sap.ushell.Container.getService("CrossApplicationNavigation");
+            if (oCrossAppNavigator) {
+                oCrossAppNavigator.toExternal({
+                    target: {
+                        semanticObject: "MaintLocnType",
+                        action: "manage"
+                    }
                 });
             } else {
-                MessageToast.show("You need an SAP Fiori Launchpad to navigate to the Location Maintain app.");
+                MessageToast.show("Cross-App Navigation is not supported in this environment.");
             }
         },
 
-        navigateToMaintainViolationType: function (oContext, aSelectedContexts) {
-            if (sap.ushell && sap.ushell.Container) {
-                sap.ushell.Container.getServiceAsync("CrossApplicationNavigation").then(function (oCrossAppNav) {
-                    oCrossAppNav.toExternal({
-                        target: {
-                            semanticObject: "MaintViolType",
-                            action: "manage"
-                        }
-                    });
+        navigateToMaintainViolationType: function (oEvent) {
+            var oCrossAppNavigator = sap.ushell && sap.ushell.Container && sap.ushell.Container.getService("CrossApplicationNavigation");
+            if (oCrossAppNavigator) {
+                oCrossAppNavigator.toExternal({
+                    target: {
+                        semanticObject: "MaintViolType",
+                        action: "manage"
+                    }
                 });
             } else {
-                MessageToast.show("You need an SAP Fiori Launchpad to navigate to the Violation Type Maintain app.");
+                MessageToast.show("Cross-App Navigation is not supported in this environment.");
             }
         }
     };
