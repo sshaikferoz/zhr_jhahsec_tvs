@@ -266,6 +266,7 @@ sap.ui.define([
                 if (iAttempts >= iMaxAttempts) { clearInterval(oExtension._pEditingStatusReset); oExtension._pEditingStatusReset = null; }
             }, 200);
         },
+
         _applyRequirementUI: function () {
             var oExtension = this;
             var oView = this.base.getView();
@@ -330,7 +331,10 @@ sap.ui.define([
                             }
                         } else {
                             if (oExtension._lastLoggedUIState !== "listReportMode") {
-                                oView.removeStyleClass("myRequestMode", "otherRequestMode", "loadingOwnershipMode");
+                                // oView.removeStyleClass("myRequestMode", "otherRequestMode", "loadingOwnershipMode");
+                                oView.removeStyleClass("myRequestMode");
+                                oView.removeStyleClass("otherRequestMode");
+                                oView.removeStyleClass("loadingOwnershipMode");
                                 document.body.classList.remove("myRequestMode", "otherRequestMode", "loadingOwnershipMode");
                                 oExtension._lastLoggedUIState = "listReportMode";
                             }
@@ -340,6 +344,19 @@ sap.ui.define([
 
                     var bIsDraft = oExtension._bIsDraft === true;
                     var bIsEditMode = $view.find(".sapMInputBaseInner:not([readonly])").length > 0;
+
+                    // NEW SAFEKEEPER LOGIC: Manage Draft/Edit Mode Class strictly via CSS state
+                    if (bIsObjectPageController) {
+                        if (bIsDraft || bIsEditMode) {
+                            if (!document.body.classList.contains("jhahEditMode")) {
+                                document.body.classList.add("jhahEditMode");
+                            }
+                        } else {
+                            if (document.body.classList.contains("jhahEditMode")) {
+                                document.body.classList.remove("jhahEditMode");
+                            }
+                        }
+                    }
 
                     // 3. EVIDENCE UPLOADERS
                     var aUploaders = oView.findAggregatedObjects(true, function (oControl) {
@@ -377,18 +394,6 @@ sap.ui.define([
                         var sTextUpper = (typeof oCtrl.getText === "function" ? oCtrl.getText() : "").toUpperCase();
                         var sId = typeof oCtrl.getId === "function" ? oCtrl.getId() : "";
                         var bIsEvidenceTableAction = oExtension._isEvidenceTableAction(oCtrl);
-
-                        if (sTextUpper === "MARK AS CLOSED" || sId.indexOf("MarkAsComplete") !== -1) {
-                            if (sId.indexOf("headerObjectPage") === -1) return;
-
-                            // We now calculate what visibility it SHOULD have, check what it currently HAS, 
-                            // and ONLY update it if they don't match. This stops the infinite re-rendering loop.
-                            var bTargetVisibility = !(bIsDraft || bIsEditMode);
-                            if (typeof oCtrl.getVisible === "function" && oCtrl.getVisible() !== bTargetVisibility) {
-                                oCtrl.setVisible(bTargetVisibility);
-                            }
-                            return;
-                        }
 
                         if (sTextUpper === "DELETE" || sId.indexOf("StandardAction::Delete") !== -1) {
                             if (bIsEvidenceTableAction && !oCtrl.data("jhahDeleteHooked")) {
@@ -897,8 +902,8 @@ sap.ui.define([
                                             toggleAsterisk("Plate Letter 1", bIsKSA);
                                             toggleAsterisk("Plate Letter 2", bIsKSA);
                                             toggleAsterisk("Plate Letter 3", bIsKSA);
-                                            toggleAsterisk("Sticker Number", bIsPrivate);
-                                            toggleAsterisk("Payroll Number", true);
+                                            // toggleAsterisk("Sticker Number", bIsPrivate);
+                                            // toggleAsterisk("Payroll Number", true);
 
                                             // Mark As Closed Custom FileUploader Dialog Injection
                                             var $dialogs = $(".sapMDialog");
@@ -1079,7 +1084,8 @@ sap.ui.define([
                             console.log("[JHAH-TVS DEBUG] Cooling Off Check -> Raw Status:", sStatusRaw, "| Clean Status:", sStatus, "| Date:", sStartDate, "| Time:", sStartTime);
 
                             // ONLY show the Cooling Off box if the status is strictly "SUB" (Submitted)
-                            if (sStatus === "NEW") {
+                            if (sStatus === "NEW" || sStatus === "SUB") {
+                                // if (sStatus !== "CLD" && sStatus !== "APP" && sStatus !== "REJ" && sStatus !== "CAN" ) {
                                 this._startCountdown(sStartDate, sStartTime);
                             } else {
                                 // If it's INP (In Progress), CLD (Closed), or anything else, completely hide it

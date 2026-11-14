@@ -27,9 +27,7 @@
         "uri": "/sap/opu/odata4/sap/zsrv_hr_tvs_o4/srvd/sap/zsrv_hr_tvs/0001/",
         "type": "OData",
         "settings": {
-          "annotations": [
-            "annotation"
-          ],
+          "annotations": ["annotation"],
           "localUri": "localService/mainService/metadata.xml",
           "odataVersion": "4.0"
         }
@@ -134,7 +132,7 @@
                     "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#EmpTab"
                   }
                 ],
-                "showCounts": true
+                "showCounts": false
               },
               "navigation": {
                 "header": {
@@ -159,7 +157,9 @@
                       "text": "Maintain Master Data",
                       "menu": [
                         "NavMaintainLocation",
-                        "NavMaintainViolationType"
+                        "NavMaintainViolationType",
+                        "NavMaintainWFRule",
+                        "NavMaintainWFAdmin"
                       ]
                     },
                     "NavMaintainLocation": {
@@ -171,6 +171,16 @@
                       "text": "Maintain Violation Type",
                       "icon": "sap-icon://warning2",
                       "press": "com.jhah.zhrjhahsectvs.ext.controller.CustomActions.navigateToMaintainViolationType"
+                    },
+                    "NavMaintainWFRule": {
+                      "text": "Maintain Workflow Rules",
+                      "icon": "sap-icon://workflow-tasks",
+                      "press": "com.jhah.zhrjhahsectvs.ext.controller.CustomActions.navigateToMaintainWFRule"
+                    },
+                     "NavMaintainWFAdmin": {
+                      "text": "Maintain Workflow Admin",
+                      "icon": "sap-icon://manager",
+                      "press": "com.jhah.zhrjhahsectvs.ext.controller.CustomActions.navigateToMaintainWFAdmin"
                     }
                   }
                 },
