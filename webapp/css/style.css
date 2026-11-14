@@ -1,108 +1,408 @@
-/* ========================================================= */
-/* 1. EMPLOYEE MODE SECURITY RULES                           */
-/* ========================================================= */
-.zhrjhahsectvs-app.employeeMode [id*="DataFieldForAction"],
-.zhrjhahsectvs-app.employeeMode [id*="StandardAction::Create"],
-.zhrjhahsectvs-app.employeeMode [id*="StandardAction::Delete"],
-.zhrjhahsectvs-app.employeeMode [id*="StandardAction::Edit"],
-.zhrjhahsectvs-app.employeeMode [id*="MaintainViolMasterData"] {
+/* =========================================================
+    0. PREVENT BUTTON FLASHING WHILE LOADING DATA
+ ========================================================= */
+ body.loadingOwnershipMode [id*="MarkAsComplete" i],
+ .zhrjhahsectvs-app.loadingOwnershipMode [id*="MarkAsComplete" i],
+ body.loadingOwnershipMode [id*="StandardAction::Edit" i],
+ .zhrjhahsectvs-app.loadingOwnershipMode [id*="StandardAction::Edit" i],
+ body.loadingOwnershipMode [id*="StandardAction::Delete" i],
+ .zhrjhahsectvs-app.loadingOwnershipMode [id*="StandardAction::Delete" i] {
+     /* Switched to pure opacity hiding to allow Fiori's engine to measure width correctly */
+     opacity: 0 !important;
+     pointer-events: none !important;
+ }
+
+
+
+/* =========================================================
+    1. TAB AUTHORIZATION LOGIC
+ ========================================================= */
+ /* Hide Admin Tab completely for Employees */
+ body.employeeMode [id*="AdminTab" i],
+ .zhrjhahsectvs-app.employeeMode [id*="AdminTab" i],
+ body.employeeMode [id*="AdminTabKey" i],
+ .zhrjhahsectvs-app.employeeMode [id*="AdminTabKey" i] {
+     display: none !important;
+     visibility: hidden !important;
+     width: 0 !important;
+     height: 0 !important;
+ }
+
+
+
+/* =========================================================
+    2. OBJECT PAGE BUTTON AUTHORIZATIONS (Role, Ownership & Edit)
+ ========================================================= */
+
+/* MY REQUEST MODE: If the request is assigned against the logged-in user, they cannot process or edit it. */
+body.myRequestMode [id*="MarkAsComplete" i],
+body.myRequestMode [id*="MarkAsClosed" i],
+.zhrjhahsectvs-app.myRequestMode [id*="MarkAsComplete" i],
+.zhrjhahsectvs-app.myRequestMode [id*="MarkAsClosed" i],
+body.myRequestMode [id*="StandardAction::Edit" i]:not([id*="LineItem" i]),
+.zhrjhahsectvs-app.myRequestMode [id*="StandardAction::Edit" i]:not([id*="LineItem" i]) {
     display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    pointer-events: none !important;
+    position: absolute !important;
 }
 
-/* ========================================================= */
-/* 2. HEADER STRIP (BLENDED LAYOUT)                          */
-/* ========================================================= */
-.zhrjhahsectvs-app .nativeViolatorStrip {
-    flex-basis: 100%;
-    width: 100%;
-    margin-bottom: 1rem;
+/* DRAFT / EDIT MODE: Mark as Closed must not be displayed while editing or in Draft mode */
+body.jhahEditMode [id*="MarkAsComplete" i],
+body.jhahEditMode [id*="MarkAsClosed" i],
+.zhrjhahsectvs-app.jhahEditMode [id*="MarkAsComplete" i],
+.zhrjhahsectvs-app.jhahEditMode [id*="MarkAsClosed" i] {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    pointer-events: none !important;
+    position: absolute !important;
 }
 
-.zhrjhahsectvs-app .violatorCard {
-    background-color: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0.5rem 0 0.5rem 0;
-}
+
+/* =========================================================
+    3. HIDE STANDARD SETTINGS ON SPECIFIC LISTS
+ ========================================================= */
+ /* Hides the table personalization cog wheel in the Evidence Table */
+ [id$="::LineItem-settings" i] {
+     display: none !important;
+ }
+
+
+
+/* Hide Main Delete on the List Report Table */
+ .zhrjhahsectvs-app [id*="::headerList--fe::table::Header::LineItem::StandardAction::Delete" i] {
+     display: none !important;
+     visibility: hidden !important;
+ }
+
+
+
+/* GLOBALLY Hide the Main Fiori Delete Button (BUT completely preserve Table deletes) */
+ .zhrjhahsectvs-app [id*="fe::StandardAction::Delete" i]:not([id*="LineItem" i]) {
+     display: none !important;
+     visibility: hidden !important;
+     width: 0 !important;
+     pointer-events: none !important;
+ }
+
+
+
+/* =========================================================
+    4. KPI CARDS (TOP BOXES) - HOVER ANIMATIONS & SHADOWS
+ ========================================================= */
+ .zhrjhahsectvs-app .sapUxAPObjectPageHeaderContentItem,
+ .zhrjhahsectvs-app [id*="::HeaderFacet::"] {
+     background: #ffffff !important;
+     border-radius: 10px !important;
+     border: 1px solid rgba(0, 0, 0, 0.04) !important;
+     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03) !important;
+     padding: 0.75rem 1.25rem !important;
+     margin-right: 0.75rem !important;
+     margin-bottom: 0.5rem !important;
+     transition: all 0.2s ease-in-out !important;
+ }
+
+
+
+.zhrjhahsectvs-app .sapUxAPObjectPageHeaderContentItem:hover,
+ .zhrjhahsectvs-app [id*="::HeaderFacet::"]:hover {
+     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08) !important;
+     transform: translateY(-3px) !important;
+ }
+
+
+
+.zhrjhahsectvs-app .sapUxAPObjectPageHeaderContentItem .sapMText,
+ .zhrjhahsectvs-app .sapUxAPObjectPageHeaderContentItem .sapMTitle,
+ .zhrjhahsectvs-app .sapUxAPObjectPageHeaderContentItem .sapMLabel,
+ .zhrjhahsectvs-app .sapUxAPObjectPageHeaderContentItem .sapMObjectNumberText,
+ .zhrjhahsectvs-app .sapUxAPObjectPageHeaderContentItem .sapMObjectNumberTitle,
+ .zhrjhahsectvs-app [id*="::HeaderFacet::"] .sapMText,
+ .zhrjhahsectvs-app [id*="::HeaderFacet::"] .sapMTitle,
+ .zhrjhahsectvs-app [id*="::HeaderFacet::"] .sapMLabel,
+ .zhrjhahsectvs-app [id*="::HeaderFacet::"] .sapMObjectNumberText,
+ .zhrjhahsectvs-app [id*="::HeaderFacet::"] .sapMObjectNumberTitle {
+     font-weight: bold !important;
+ }
+
+
+
+/* =========================================================
+    5. MAIN HEADER STRIP (COMPACTED SPACING)
+ ========================================================= */
+ .zhrjhahsectvs-app .nativeViolatorStrip {
+     flex-basis: 100%;
+     width: 100%;
+     margin-bottom: 0.5rem !important;
+     background: #ffffff !important;
+     border-radius: 10px !important;
+     border: 1px solid rgba(0, 0, 0, 0.04) !important;
+     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04) !important;
+     padding: 0.5rem 1rem !important;
+ }
+
+
 
 .zhrjhahsectvs-app .violatorCol {
-    flex: 1 1 auto;
-    margin-right: 1.5rem;
-    margin-bottom: 0.25rem;
-}
+     margin-right: 2rem !important;
+     margin-bottom: 0.25rem !important;
+ }
 
-.zhrjhahsectvs-app .violatorCol:last-child {
-    margin-right: 0;
-}
 
-/* ========================================================= */
-/* 3. ALIGNMENT FOR HEADER STRIP                             */
-/* ========================================================= */
+
 .zhrjhahsectvs-app .violatorRow {
-    align-items: center !important;
-    margin-bottom: 6px !important;
+     align-items: center !important;
+     margin-bottom: 2px !important;
+ }
+
+
+
+/* =========================================================
+    6. NEW ULTRA-THIN STRIP (SPACED OUT & CLEAN)
+ ========================================================= */
+ .zhrjhahsectvs-app .nativeViolatorStripThin {
+     flex-basis: 100%;
+     width: 100%;
+     background: #ffffff !important;
+     border-radius: 8px !important;
+     border: 1px solid rgba(0, 0, 0, 0.04) !important;
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+     padding: 0.6rem 1.5rem !important; /* Increased padding slightly for breathing room */
+     display: flex !important;
+     flex-wrap: wrap !important; /* Allows items to wrap on smaller screens */
+ }
+
+
+
+.zhrjhahsectvs-app .violatorRowThin {
+     align-items: center !important;
+     margin-bottom: 0 !important;
+     margin-right: 3rem !important; /* INCREASED from 1.5rem to 3rem for wide spacing! */
+ }
+
+
+
+/* Removes the margin on the very last item so it fits perfectly */
+ .zhrjhahsectvs-app .violatorRowThin:last-child {
+     margin-right: 0 !important;
+ }
+
+
+
+/* FORCE ALL LABELS to be normal weight and gray */
+ .zhrjhahsectvs-app .violatorRowThin .sapMFlexItem:first-child .sapMText,
+ .zhrjhahsectvs-app .violatorRowThin .sapMFlexItem:first-child .sapMLabel,
+ .zhrjhahsectvs-app .violatorRow .sapMFlexItem:first-child .sapMText,
+ .zhrjhahsectvs-app .violatorRow .sapMFlexItem:first-child .sapMLabel,
+ .zhrjhahsectvs-app .violatorLabelThin,
+ .zhrjhahsectvs-app .violatorLabel {
+     font-size: 0.875rem !important; 
+     color: #6a6d70 !important;
+     line-height: normal !important;
+     font-weight: 400 !important; 
+     margin-right: 8px !important; /* Increased from 6px to 8px to separate text from number */
+ }
+
+
+
+/* FORCE ALL VALUES to be BOLD and dark */
+ .zhrjhahsectvs-app .violatorRowThin .sapMFlexItem:last-child .sapMText,
+ .zhrjhahsectvs-app .violatorRowThin .sapMFlexItem:last-child .sapMObjectNumberText,
+ .zhrjhahsectvs-app .violatorRow .sapMFlexItem:last-child .sapMText,
+ .zhrjhahsectvs-app .violatorRow .sapMFlexItem:last-child .sapMObjectNumberText,
+ .zhrjhahsectvs-app .violatorValueThin,
+ .zhrjhahsectvs-app .violatorValue {
+     font-size: 0.9375rem !important; 
+     color: #32363a !important;
+     font-weight: 600 !important; 
+     line-height: normal !important;
+ }
+
+
+
+.zhrjhahsectvs-app .highlightStat {
+     color: #b02323 !important;
+ }
+
+
+
+
+/* =========================================================
+    8. KPI COUNTDOWN BOX
+ ========================================================= */
+ .zhrjhahsectvs-app .customKpiBox {
+     background: #ffffff !important;
+     border-radius: 10px !important;
+     border: 1px solid rgba(0, 0, 0, 0.04) !important;
+     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03) !important;
+     padding: 0.75rem 1.25rem !important;
+     margin-right: 0.75rem !important;
+     margin-bottom: 0.5rem !important;
+
+     /* FIX: Changed from flex to inline-flex and forced a max-content width 
+        so it NEVER stretches into a long bar while loading! */
+     display: inline-flex !important; 
+     flex-direction: column !important;
+     justify-content: center !important;
+     width: max-content !important; 
+     min-width: 160px !important; 
+
+     cursor: default !important;
+     transition: all 0.2s ease-in-out !important;
+ }
+
+
+
+.zhrjhahsectvs-app .customKpiBox:hover {
+     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08) !important;
+     transform: translateY(-3px) !important;
+ }
+
+
+
+.zhrjhahsectvs-app .customKpiTitle {
+     font-size: 0.875rem !important;
+     color: #1c242b !important;
+     font-weight: bold !important;
+     font-family: "72", "72full", Arial, Helvetica, sans-serif !important;
+     position: relative !important;
+     top: -5px !important;
+     margin-bottom: 0.25rem !important;
+ }
+
+
+
+.zhrjhahsectvs-app .customKpiValue {
+     font-size: 1.5rem !important;
+     color: #6a6d70 !important;
+     font-weight: 300 !important;
+     font-family: "72", "72-Light", "72full", Arial, Helvetica, sans-serif !important;
+     font-variant-numeric: tabular-nums;
+ }
+
+
+
+.zhrjhahsectvs-app .customKpiIcon {
+     color: #6a6d70 !important;
+     font-size: 1.25rem !important;
+     margin-top: 2px !important;
+ }
+
+
+
+.zhrjhahsectvs-app .workflowNote {
+     font-style: italic !important;
+     opacity: 0.8 !important;
+ }
+
+
+
+/* =========================================================
+    9. ACKNOWLEDGMENT & JUSTIFICATION TEXTAREA OVERRIDES
+ ========================================================= */
+ .zhrjhahsectvs-app .sapUiFormCLCellsS12:has([id*="IncJust"][id*="justification"][id*="Field-content"]),
+ .zhrjhahsectvs-app .sapUiFormCLCellsL12:has([id*="IncJust"][id*="justification"][id*="Field-content"]) {
+     width: 700px !important;
+     max-width: 700px !important;
+     min-width: 700px !important;
+     box-sizing: border-box !important;
+     overflow: visible !important;
+ }
+
+
+
+.zhrjhahsectvs-app [id*="IncJust"][id*="justification"][id*="Field-content"],
+ .zhrjhahsectvs-app [id*="IncJust"][id*="justification"][id*="Field-edit"] {
+     width: 1000px !important;
+     max-width: 1000px !important;
+     box-sizing: border-box !important;
+ }
+
+
+
+.zhrjhahsectvs-app [id*="IncJust"][id*="justification"][id*="Field-edit-content"],
+ .zhrjhahsectvs-app [id*="IncJust"][id*="justification"][id*="Field-edit-inner"] {
+     width: 100% !important;
+     max-width: none !important;
+     box-sizing: border-box !important;
+ }
+
+
+
+/* =========================================================
+    10. EVIDENCE UPLOADER SIZING
+ ========================================================= */
+ .zhrjhahsectvs-app [id*="Evidence"] tbody .sapUiUfdFileUploader,
+ .zhrjhahsectvs-app [id*="Attachment"] tbody .sapUiUfdFileUploader {
+     min-width: 4.5rem !important;
+ }
+
+
+
+/* =========================================================
+    11. HIDE EMPTY TAB DROPDOWNS (OBJECT PAGE ANCHOR BAR)
+ ========================================================= */
+
+
+
+/* 1. Preserve production selectors and add the split-button arrow selector
+      without depending entirely on the application-root class. */
+.sapUxAPAnchorBar .sapMMenuBtnArrow,
+.sapUxAPAnchorBar [id$="-arrowButton"],
+.sapUxAPAnchorBar button[title="Open Menu"],
+.sapUxAPAnchorBar button[title="Menu"],
+.sapUxAPAnchorBar .sapMMenuBtn > button:nth-child(2),
+.sapUxAPAnchorBar .sapUxAPAnchorBarButton.sapMMenuBtn .sapMSBArrow,
+.zhrjhahsectvs-app .sapUxAPAnchorBar .sapMMenuBtnArrow,
+.zhrjhahsectvs-app .sapUxAPAnchorBar [id$="-arrowButton"],
+.zhrjhahsectvs-app .sapUxAPAnchorBar button[title="Open Menu"],
+.zhrjhahsectvs-app .sapUxAPAnchorBar button[title="Menu"],
+.zhrjhahsectvs-app .sapUxAPAnchorBar .sapMMenuBtn > button:nth-child(2),
+.zhrjhahsectvs-app .sapUxAPAnchorBar .sapUxAPAnchorBarButton.sapMMenuBtn .sapMSBArrow {
+     display: none !important;
+     visibility: hidden !important;
+     width: 0 !important;
+     min-width: 0 !important;
+     padding: 0 !important;
+     margin: 0 !important;
+     border: none !important;
+     pointer-events: none !important;
+     position: absolute !important;
+ }
+
+
+
+/* Remove space reserved for the hidden split-button arrow. */
+.sapUxAPAnchorBar .sapUxAPAnchorBarButton.sapMMenuBtn .sapMSB {
+    padding-right: 0 !important;
 }
 
-.zhrjhahsectvs-app .violatorLabel {
-    font-size: 0.8125rem !important;
-    color: #6a6d70 !important;
-    margin-right: 4px !important;
-    line-height: normal !important;
+.sapUxAPAnchorBar .sapUxAPAnchorBarButton.sapMMenuBtn .sapMSBText .sapMBtnInner,
+.zhrjhahsectvs-app .sapUxAPAnchorBar .sapUxAPAnchorBarButton.sapMMenuBtn .sapMSBText .sapMBtnInner {
+    margin-right: 0 !important;
 }
 
-.zhrjhahsectvs-app .violatorValue {
-    font-size: 0.8125rem !important;
-    color: #32363a !important;
-    font-weight: 600 !important;
-    line-height: normal !important;
-}
 
-/* ========================================================= */
-/* 4. FIELD GROUP VALUE ALIGNMENT FIX                        */
-/* Applies ONLY to JHAH custom themes                        */
-/* ========================================================= */
+/* 2. Popover Menus are rendered in the <body> tag (inside sap-ui-static), OUTSIDE of your view's root. 
+       Therefore we cannot use your .zhrjhahsectvs-app prefix here, but we MUST add 'body' 
+       to ensure the rule beats Work Zone's default styling. */
+ body .sapMMenu:has(.sapMMenuItem[aria-label=""]),
+ body .sapMMenu:has(.sapMMenuItem:empty),
+ body .sapMMenu:has(.sapMMenuItem > .sapMMenuItemText:empty),
+ body .sapUiUnifiedMenu:has(.sapUiUnifiedMenuItem:empty) {
+     display: none !important;
+     visibility: hidden !important;
+     opacity: 0 !important;
+     pointer-events: none !important;
+     height: 0 !important;
+     width: 0 !important;
+     position: absolute !important;
+ }
 
-/* Remove the custom theme indentation applied to the value */
-html[class*="sapUiTheme-JHAH"] [id*="::FormElement::"] > dd {
-    margin: 0 !important;
-    margin-inline-start: 0 !important;
-    padding: 0 !important;
-    padding-inline-start: 0 !important;
-}
-
-/* Stretch the value container to use the available width */
-html[class*="sapUiTheme-JHAH"] [id*="::FormElement::"] .sapUiFormElementContent,
-html[class*="sapUiTheme-JHAH"] [id*="::FormElement::"] [id$="Field-content"] {
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-/* Ensure the field/value itself starts from the left */
-html[class*="sapUiTheme-JHAH"] [id*="::FormElement::"] .sapMText,
-html[class*="sapUiTheme-JHAH"] [id*="::FormElement::"] .sapMTextMaxWidth,
-html[class*="sapUiTheme-JHAH"] [id*="::FormElement::"] .sapMdcField,
-html[class*="sapUiTheme-JHAH"] [id*="::FormElement::"] .sapMdcField > * {
-    text-align: left !important;
-    text-align: start !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-/* ========================================================= */
-/* JHAH CUSTOM THEMES ONLY                                   */
-/* Align form content without moving subsection headers       */
-/* ========================================================= */
-
-html[class*="sapUiTheme-JHAH"] .sapUiFormCL {
-    padding-left: 0 !important;
-    margin-left: 0 !important;
-}
-
-html[class*="sapUiTheme-JHAH"] .sapUiFormContainer {
-    padding-left: 0 !important;
-}
-
-html[class*="sapUiTheme-JHAH"] .sapUiFormElement {
-    margin-left: 0 !important;
+ /* Hide tab dropdown arrow and its separator */
+.zhrjhahsectvs-app .sapMITBFilterExpandBtn,
+.zhrjhahsectvs-app .sapMITBFilterExpandBtnSeparator {
+    display: none !important;
 }

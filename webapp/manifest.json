@@ -27,9 +27,7 @@
         "uri": "/sap/opu/odata4/sap/zsrv_hr_tvs_o4/srvd/sap/zsrv_hr_tvs/0001/",
         "type": "OData",
         "settings": {
-          "annotations": [
-            "annotation"
-          ],
+          "annotations": ["annotation"],
           "localUri": "localService/mainService/metadata.xml",
           "odataVersion": "4.0"
         }
@@ -123,6 +121,19 @@
             "settings": {
               "contextPath": "/header",
               "variantManagement": "Page",
+              "views": {
+                "paths": [
+                  {
+                    "key": "AdminTabKey",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#AdminTab"
+                  },
+                  {
+                    "key": "EmpTabKey",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#EmpTab"
+                  }
+                ],
+                "showCounts": false
+              },
               "navigation": {
                 "header": {
                   "detail": {
@@ -134,6 +145,11 @@
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
                     "type": "ResponsiveTable"
+                  }
+                },
+                "@com.sap.vocabularies.UI.v1.LineItem#AdminList": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
                   },
                   "actions": {
                     "MaintainViolMasterData": {
@@ -141,7 +157,9 @@
                       "text": "Maintain Master Data",
                       "menu": [
                         "NavMaintainLocation",
-                        "NavMaintainViolationType"
+                        "NavMaintainViolationType",
+                        "NavMaintainWFRule",
+                        "NavMaintainWFAdmin"
                       ]
                     },
                     "NavMaintainLocation": {
@@ -153,7 +171,22 @@
                       "text": "Maintain Violation Type",
                       "icon": "sap-icon://warning2",
                       "press": "com.jhah.zhrjhahsectvs.ext.controller.CustomActions.navigateToMaintainViolationType"
+                    },
+                    "NavMaintainWFRule": {
+                      "text": "Maintain Workflow Rules",
+                      "icon": "sap-icon://workflow-tasks",
+                      "press": "com.jhah.zhrjhahsectvs.ext.controller.CustomActions.navigateToMaintainWFRule"
+                    },
+                     "NavMaintainWFAdmin": {
+                      "text": "Maintain Workflow Admin",
+                      "icon": "sap-icon://manager",
+                      "press": "com.jhah.zhrjhahsectvs.ext.controller.CustomActions.navigateToMaintainWFAdmin"
                     }
+                  }
+                },
+                "@com.sap.vocabularies.UI.v1.LineItem#EmpList": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
                   }
                 }
               },
@@ -169,6 +202,7 @@
             "settings": {
               "editableHeaderContent": false,
               "contextPath": "/header",
+              "enhanceI18n": "i18n/i18n.properties",
               "content": {
                 "header": {
                   "facets": {
